@@ -1,0 +1,505 @@
+Sub-sub!
+Um grafo G=(V,A) armazena as informações de um conjunto de vértices e outro de arestas. Um subgrafo G′=(V′,A′) é um grafo tal que V′⊂V e A′⊂A. Dados dois grafos não direcionados, diga se o segundo é um subgrafo do primeiro.
+
+Entrada
+A primeira linha da entrada indica quantos são os n vértices do grafo (0≤n≤100). As n linhas seguintes representam, cada uma, a informação de um vértice no formato: id,A,v1,v2,⋯,vA, onde id é um inteiro identificando o vértice, A é a quantidade de arestas ligadas a este vértice, e cada vi≠id é um inteiro identificando um vértice adjacente a id. Há uma linha em branco, e as informações do segundo grafo são fornecidas no mesmo formato.
+
+Saída
+Apresente a mensagem "Sub-sub!", se o segundo grafo for um subgrafo do primeiro, "Ue? Ue? Ue?" caso contrário.
+
+Observações
+Cada usuário da rede é representado por um id único, e nenhum string tem espaços ou mais de 10 caracteres. No primeiro caso, o vértice 1 esta conectado ao 2 e 3 e, portanto, o grafo do vértice 1 conectado ao vértice 3 é subgrafo. No segundo caso, o segundo grafo não é subgrafo porque não existe a conexão dos vértices 2 e 5 no primeiro grafo. No terceiro caso, o primeiro grafo é um pentagrama e o segundo, um grafo circular do mal. Portanto temos um subgrafo. Além disso, considere que um grafo vazio é sempre um subgrafo.
+
+grafo = {}
+for _ in range(int(input())):
+    v, A, *vizinhos = input().split()
+    grafo[v] = vizinhos
+
+input()
+
+subgrafo = {}
+for _ in range(int(input())):
+    v, A, *vizinhos = input().split()
+    subgrafo[v] = vizinhos
+
+if not all(v in grafo for v in subgrafo):
+    print('Ue? Ue? Ue?')
+elif not all(a in grafo[v] for v, arestas in subgrafo.items() for a in arestas):
+    print('Ue? Ue? Ue?')
+else:
+    print('Sub-sub!')
+    
+#######################
+D(grau) do Grafo
+Um grafo G = (V, A) armazena as informações de um conjunto de vértices e outro de arestas. O grau  de um vértice é a quantidade de arestas incidentes nele. O Grau de um grafo é o valor máximo do grau de seus vértices. O "D(grau)" é a ideia inversa, o valor mínimo do grau dos vértices. Faça um programa que receba uma série e instruções e as processe para gerar um grafo não direcionado.
+
+IV A insere o vértice com id==A no grafo;
+IA A B insere uma aresta do vértice de id==A para o vértice de id==B, se os vértices existirem;
+RV A remove o vértice de id==A, se existir, e todas as arestas relacionadas a ele; e
+RA A B remove a aresta do vértice de id==A para o vértice de id==B, se existir;
+Entrada
+A entrada consiste de uma linha contendo o número 0≤n≤100 indicando a quantidade de operações sobre o grafo, seguida de n linhas contendo, cada uma, uma instrução conforme as apresentadas. Todo id é um string de não mais de 10 caracteres.
+
+Saída
+Apresente, em uma linha, o "D(grau)" do grafo.
+
+Observações
+As operações de inserção sobrescrevem as informações existentes. No primeiro exemplo, os dois vértices têm o mínimo de arestas. No segundo caso, o vértice A tem o mínimo de arestas. No último exemplo, os vértices A e B só tem uma aresta enquanto C tem duas.
+
+n = int(input()) 
+
+G = {} 
+
+for _ in range(n): 
+
+    l = input().split() 
+
+    if l[0] == 'IV': 
+
+        if l[1] not in G: 
+
+            G[l[1]] = [] 
+
+    elif l[0] == 'IA': 
+
+        if l[1] in G and l[2] in G: 
+
+            if l[2] not in G[l[1]]: 
+
+                G[l[1]].append(l[2]) 
+
+                G[l[2]].append(l[1]) 
+
+    elif l[0] == 'RV': 
+
+        if l[1] in G: 
+
+            del G[l[1]] 
+
+            for k in G.keys(): 
+
+                if l[1] in G[k]: 
+
+                    G[k].remove(l[1]) 
+
+    elif l[0] == 'RA': 
+
+        if l[1] in G: 
+
+            if l[2] in G[l[1]]: 
+
+                G[l[1]].remove(l[2]) 
+
+         
+
+print(min(map(lambda x: len(x), G.values()), default = 0))
+
+####################
+Matriz de Adjacência
+Um grafo G=(V,A) armazena as informações de um conjunto de vértices e outro de arestas. Foi aprendido durante a disciplina que há diferentes formas de se realizar a representação de um grafo e uma delas é a Matriz de Adjacência. Nessa matriz, dado um grafo G com n vértices, podemos representá-lo em uma matriz n×n onde A(G)=[aij] (ou simplesmente A). A definição precisa das entradas da matriz varia de acordo com as propriedades do grafo que se deseja representar, porém de forma geral o valor aij guarda informações sobre como os vértices vi e vj estão relacionados (isto é, informações sobre a adjacência de vi e vj). Dessa forma, sua tarefa é, dado um grafo com seus respectivos vértices e arestas, imprimir essa representação utilizando uma matriz de adjacências.
+
+Entrada
+A primeira linha contém dois inteiros e um caracter separados por um espaço, V (1≤V≤50), E (1≤E≤V2) e C, indicando o número de vértices (numeradas de 1 a V), o número de arestas e o tipo do grafo, sendo 'D' se o grafo for direcionado e 'N' se o grafo for não direcionado. Em seguida, E linhas, cada uma com três inteiros separados por espaços, X, Y e P, (1≤X,Y≤N,1≤P≤100), indicando que existe uma ligação de X para Y com peso P, quando o grafo for direcionado ou uma ligação de X para Y e uma ligação de Y para X, ambas com peso P, quando o grafo for não direcionado.
+
+Saída
+A saída deverá conter a respectiva matriz de adjacência A, conforme os exemplos abaixo, onde cada peso ocupa 4 espaços ajustado a direita.
+
+v, e, c = input().split()
+v, e = int(v), int(e)
+mat = [[0] * v for _ in range(v)]
+for _ in range(e):
+    x, y, p = map(int, input().split())
+    mat[x - 1][y - 1] = p
+    if c == 'N':
+        mat[y - 1][x - 1] = p
+
+for l in mat:
+    for p in l:
+        print(f'{p:4d}', end = '')
+    print()
+
+########################
+Quadrilha Cíclica
+João amava Teresa que amava Raimundo que amava Maria que amava Joaquim que amava Lili que não amava ninguém... Mas e se Lili amasse João? Essa quadrilha seria cíclica!
+
+
+Dado um grafo direcionado, determine se há um ciclo nele.
+
+Entrada
+A primeira linha da entrada indica quantos são os n vértices do grafo (1≤n≤100). As n linhas seguintes representam, cada uma, a informação de um vértice no formato: id,A,v1,v2,⋯,vA, onde id é um string identificando o vértice, A é a quantidade de arestas ligadas a este vértice, e cada vi≠id é um string identificando um vértice adjacente a id.
+
+Saída
+Caso haja um ciclo, apresente a mensagem "Hoje tem!", caso contrário, apresente "... que ama ninguem.".
+
+Observações
+Cada usuário da rede é representado por um id único, nenhum string tem espaços ou mais de 10 caracteres e nenhum grafo tem laços. No primeiro caso, há diversos ciclos, por exemplo João e Teresa formam um ciclo. No segundo caso, não há ciclos. No terceiro caso, um dos ciclos existentes é Pedro que ama Renata que ama Joao que ama Lili que ama Pedro.
+
+grafo = {}
+for _ in range(int(input())):
+    v, A, *vizinhos = input().split()
+    grafo[v] = vizinhos
+
+
+def ciclico(grafo, vertice, visitados, pilha):
+    visitados.add(vertice)
+    pilha.add(vertice)
+
+    for vizinho in grafo[vertice]:
+        if vizinho not in visitados:
+            if ciclico(grafo, vizinho, visitados, pilha):
+                return True
+        elif vizinho in pilha:
+            return True
+
+    pilha.remove(vertice)
+    return False
+
+
+def tem_ciclo_dfs(grafo):
+    visitados = set()
+    pilha = set()
+    for vertice in grafo:
+        if vertice not in visitados:
+            if ciclico(grafo, vertice, visitados, pilha):
+                return True
+    return False
+
+
+if tem_ciclo_dfs(grafo):
+    print('Hoje tem!')
+else:
+    print('... que ama ninguem.')
+
+######################################
+Grafo Rubro-Negro
+Uma árvore rubro-negra é um grafo cujas estrutura segue regras muito interessantes conforme a cor do vértice. Sua implementação é um pouco complexa, então vamos tentar algo mais simples: coloração de um grafo rubro-negro. O problema é simples, dado um grafo, indique se ele pode ser colorido de tal forma que todo vértice tenha uma cor (rubro ou negra) e vértices adjacentes não tenham a mesma cor.
+
+Entrada
+A primeira linha da entrada indica quantos são os n vértices do grafo (0≤n≤100). As n linhas seguintes representam, cada uma, a informação de um vértice no formato: id,A,v1,v2,⋯,vA, onde id é um inteiro identificando o vértice, A é a quantidade de arestas ligadas a este vértice, e cada vi≠id é um número inteiro identificando um vértice adjacente a id.
+
+Saída
+Apresente a mensagem "Mais cor, por favor!" se o grafo não pode ser colorido como as regras, "Lerei O Vermelho e o Negro.", caso contrário.
+
+Observações
+No primeiro exemplo, cada um dos 3 vértices está ligado a outro, portanto não é possível colorir todos só com duas cores. No segundo caso, os vértices 1 e 3 podem ter uma cor e 2 e 4 outra. No último exemplo, o vértice "central" tem uma cor e os demais outra.
+
+grafo = {}
+for _ in range(int(input())):
+    v, A, *vizinhos = map(int, input().split())
+    grafo[v] = {'cor': None, 'vizinhos': vizinhos}
+
+coloridos = []
+conflito = False
+
+def colore(v, cor):
+    global coloridos, grafo, conflito
+    if not conflito and v not in coloridos:
+        if all(grafo[vizinho]['cor'] != cor for vizinho in grafo[v]['vizinhos']):
+            grafo[v]['cor'] = cor
+            coloridos.append(v)
+            for vizinho in grafo[v]['vizinhos']:
+                colore(vizinho, 'negro' if cor == 'rubro' else 'rubro')
+        else:
+            conflito = True
+
+if grafo:
+    v = list(grafo.keys())[0]
+    colore(v, 'rubro')
+
+if conflito:
+    print('Mais cor, por favor!')
+else:
+    print('Lerei "O Vermelho e o Negro".')
+
+#########################
+Sugestão de Amiguis
+O saudoso Mussum seria uma webcelebridade nos dias atuais, mas provavelmente não teria muito traquejo tecnológico para encontrar seus amigos na rede social. Depois de aceitar os pedidos de conhecidos, ele reparou que faltavam muitos, e pediu sua ajuda. 
+
+Dado um grafo descrevendo as relações da rede social, crie um programa que apresente, em ordem alfabética, os prováveis amigos do Mussum. Para encontrar os prováveis amigos de Mussum, considere a seguinte regra: duas pessoas não conectadas que têm pelo menos 3 amigos em comum têm alta probabilidade de serem amigos entre si e portanto, são prováveis amigos. 
+
+Entrada
+A primeira linha da entrada indica quantos são os n vértices do grafo (1≤n≤100). As n linhas seguintes representam, cada uma, a informação de um vértice no formato: id,A,v1,v2,⋯,vA, onde id é um string identificando o vértice, A é a quantidade de arestas ligadas a este vértice, e cada vi≠id é um string identificando um vértice adjacente a id. O primeiro id é sempre o do Mussum.
+
+Saída
+Apresente, em ordem alfabética, os prováveis amigos do Mussum, se houver, a mensagem "Cacildis! Cade elis?" caso contrário.
+
+Observações
+Cada usuário da rede é representado por um id único, e nenhum string tem espaços ou mais de 10 caracteres. No primeiro caso, Mussum não é amigo de  Macale  e nem Sargento mas esses dois últimos tem 3 amigos em comum com Mussum e portanto, são prováveis amigos. No segundo caso, Mussum já é amigo de todos na rede social. No último caso, Laffond é o único dos "não-contatos" de Mussum que não tem amigos em comum em quantidade suficiente.
+
+grafo = {}
+for _ in range(int(input())):
+    v, A, *vizinhos = input().split()
+    grafo[v] = vizinhos
+
+amigos_dos_amigos = {}
+for amigo in grafo['Mussum']:
+    for vizinho_do_amigo in grafo[amigo]:
+        if vizinho_do_amigo != 'Mussum'and 'Mussum' not in grafo[vizinho_do_amigo]:
+            if vizinho_do_amigo in amigos_dos_amigos:
+                amigos_dos_amigos[vizinho_do_amigo] += 1
+            else:
+                amigos_dos_amigos[vizinho_do_amigo] = 1
+
+sugestoes = [nome
+             for nome, amigos_em_comum in amigos_dos_amigos.items()
+             if amigos_em_comum >= 3]
+
+if sugestoes:
+    print('\n'.join(sorted(sugestoes)))
+else:
+    print('Cacildis! Cade elis?')
+
+#############
+Forévis Alonis
+O saudoso Mussum seria uma webcelebridade nos dias atuais e, como todo jovem internauta, você gostaria ser amigo dele na rede social. Para isso, precisa solicitar a amizade, portanto tem de chegar a uma relação direta do Trapalhão. Dado um grafo descrevendo as relações da rede social, crie um programa que diga a quantidade mínima de contatos para chegar ao Mussum.
+
+Entrada
+A primeira linha da entrada indica quantos são os n vértices do grafo (2≤n≤100). As n linhas seguintes representam, cada uma, a informação de um vértice no formato: id,A,v1,v2,⋯,vA, onde id é um inteiro identificando o vértice, A é a quantidade de arestas ligadas a este vértice, e cada vi≠id é um número inteiro identificando um vértice adjacente a id. A última linha apresenta dois ids, separados por espaço, que representam você e Mussum, respectivamente.
+
+Saída
+Apresente a quantidade mínima de contatos necessários para chegar ao Mussum, se possível, a mensagem "Forevis alonis..." caso contrário.
+
+Observações
+Cada usuário da rede é representado por um id único. No primeiro exemplo, Mussum já é um dos seus contatos. No segundo caso, é preciso passar pelos usuários 2 e 3 para chegar ao ídolo. No último caso, não é possível contactá-lo...
+
+grafo = {}
+for _ in range(int(input())):
+    v, A, *vizinhos = map(int, input().split())
+    grafo[v] = vizinhos
+eu, mussum = map(int, input().split())
+
+def caminho_mais_curto(origem, destino, caminho=[]):
+    caminho.append(origem)
+    if origem == destino:
+        return caminho
+    mais_curto = []
+    for vizinho in grafo[origem]:
+        if vizinho not in caminho:
+            outro_caminho = caminho_mais_curto(vizinho, destino, caminho[:])
+            if not mais_curto or (outro_caminho and outro_caminho[-1] == destino and len(outro_caminho) < len(mais_curto)):
+                mais_curto = outro_caminho
+    return mais_curto
+
+caminho = caminho_mais_curto(eu, mussum)
+
+if caminho:
+    print(len(caminho) - 2)
+else:
+    print('Forevis alonis...')
+
+#####################################
+mplementação de Grafo
+Um grafo G = (V, A) armazena as informações de um conjunto de vértices e outro de arestas. Defina a classe Grafo que implementa essa estrutura de dados e algumas funcionalidades.
+
+A classe Grafo deve ter os atributos vertices, que armazena a informação dos vértices e outro arestas, que armazena as relações entre eles. Estes atributos devem ser implementados como o tipo list, tuple ou dict. Cada vértice é definido por um par (id,dado), identificando o vértice e a informação armazenada nele, respectivamente. Cada aresta é definida por um par (ido,idd), identificando os ids dos vértices de origem e destino, respectivamente. A classe deve fornecer os seguintes métodos:
+
+insere_v(id, dado), que insere um vértice com as informações dadas.
+insere_a(id_o, id_d), que insere uma nova aresta com as informações dadas.
+remove_v(id), que remove o vértice com o id dado, se existir (a remoção de um vértice implica na remoção de todas as arestas relacionadas a ele).
+remove_a(id_o, id_d), que remove uma nova aresta dada, se existir.
+grau_saida, que recebe o id de um vértice e retorna o grau de saída dele, se existir, 0 caso contrário.
+grau_entrada, que recebe o id de um vértice e retornar o grau de entrada dele, se existir, 0 caso contrário.
+alcancavel, que recebe os ids de dois vértices u,v e retorna um booleano indicando se o vértice v pode ser alcançado a partir de u.
+Os métodos de alteração da estrutura serão chamados para executar uma das instruções, como a seguir:
+
+IV A dado_A insere o vértice com id==A e a informação dadoA no grafo;
+IA A B insere uma aresta do vértice de id==A para o vértice de id==B, se ambos existirem;
+RV A remove o vértice de id==A, se existir, e todas as arestas relacionadas a ele; e
+RA A B remove a aresta do vértice de id==A para o vértice de id==B, se existir.
+Os outros métodos listados serão chamados nos testes.
+
+Entrada
+Não há leitura de dados, isso é feito automaticamente. A entrada consiste de uma linha contendo o número 0≤n≤100 indicando a quantidade de operações sobre o grafo, seguida de n linhas contendo, cada uma, uma instrução conforme as previstas.
+
+Saída
+Não há saída de dados, isso é feito automaticamente.
+
+Observações
+Os casos de teste chamam as funções descritas, verificam a estrutura do grafo gerado e testam as funções grau_saida, grau_entrada e alcancavel. É garantido que há, no máximo, uma aresta para cada par de vértices u,v,u≠v e que não há laços.
+
+class Grafo():
+    def __init__(self):
+        self.vertices = {}
+        self.arestas = []
+
+    def insere_v(self, id_v, info):
+        self.vertices[id_v] = info
+
+    def insere_a(self, id_o, id_d):
+        if id_o in self.vertices and id_d in self.vertices:
+            self.arestas.append((id_o, id_d))
+
+    def remove_v(self, id_v):
+        if id_v in self.vertices:
+            del self.vertices[id_v]
+            self.arestas = list(filter(lambda a: id_v not in a, self.arestas))
+
+    def remove_a(self, id_o, id_v):
+        a = (id_o, id_v)
+        if a in self.arestas:
+            self.arestas.remove(a)
+
+    def grau_saida(self, id_v):
+        return sum(1 for a in self.arestas if id_v == a[0])
+
+    def grau_entrada(self, id_v):
+        return sum(1 for a in self.arestas if id_v == a[1])
+
+    def alcancavel(self, id_o, id_d):
+        rota = []
+
+        if id_o in self.vertices and id_d in self.vertices:
+            rota = [id_o]
+            pilha = [id_o]
+            while pilha:
+                vertice = pilha.pop()
+                if vertice not in rota:
+                    rota.append(vertice)
+                    if vertice == id_d:
+                        break
+
+                retira_da_pilha = True
+                for _, proximo in list(filter(lambda a: vertice == a[0], self.arestas)):
+                    if proximo not in rota:
+                        pilha.append(proximo)
+                        retira_da_pilha = False
+                        break
+                if retira_da_pilha and pilha:
+                    pilha.pop()
+
+        return rota != [] and rota[-1] == id_d
+
+##################################
+Painel Perigoso
+Durante a suas missões de mercenário, a comando de Greff Carga, você resgatou um item chamado Óðrerir. O único problema é que ao tentar acessar o dispositivo, você percebeu que ele possui uma tecnologia acoplada que exige uma execução meticulosa de alguns comandos para destravá-lo. Infelizmente, faz parte da sua missão conseguir esse acesso. 
+
+
+
+
+Pra sua sorte, debaixo do dispositivo há uma lista de instruções que dita o seguinte: "O painel encontra-se atualmente no número X. Para abrir o dispositivo, com menos de 20 ações, deve-se operar as instruções disponíveis (incrementar, dobrar ou inverter) para transformar o número X no número Y. Após as ações, pode-se, uma única vez, tentar destravar o disposiivo. Caso o painel não contenha o número Y no momento em que a ação destravar seja executada, o dispositivo não poderá mais ser aberto e se autodestruirá.".
+
+Para não correr o risco de destruir o Óðrerir, você deve escrever uma função chamada destravarPainel, para te auxiliar a executar o número mínimo de operações para destravar o artefato e recuperar o seu valioso conteúdo.
+
+
+Entrada
+Não há entrada de dados, a função é chamada para valores arbitrários definidos nos casos de teste. Essa função recebe como entrada três parâmetros:
+
+painel: Um objeto para manipular o artefato.
+origem: Inteiro com o valor inicial no painel.
+objetivo: Inteiro com o valor no qual o dispositivo poderá ser destravado. 
+O objeto painel, possui os seguintes métodos de acesso ao dispositivo: 
+verificaPainel(): rotina que retorna um inteiro com o valor atual no painel. Não consome ações.
+verificaAcoesRestantes(): rotina que retorna um inteiro com o número restante de ações disponíveis. Não consome ações.
+incrementarValor(): rotina que incrementa em uma unidade o valor do painel. Retorna True caso haja ações suficientes e a modificação ocorra com sucesso ou imprime uma mensagem de erro e retorna  é False, caso contrário. É garantido que, em nenhum momento, o valor irá ultrapassar 99999.
+dobrarValor(): rotina que dobra o valor (multiplica por 2) do painel. Retorna True caso haja ações suficientes e a modificação ocorra com sucesso ou imprime uma mensagem de erro e retorna  é False , caso contrário. É garantido que, em nenhum momento, o valor irá ultrapassar 99999.
+inverterValor(): rotina que inverte o valor do painel. Retorna True caso haja ações suficientes e a modificação ocorra com sucesso ou imprime uma mensagem de erro e retorna  é False, caso contrário. Essa rotina desconsidera zeros a esquerda, ao realizar a inversão.
+abrirArtefato(): rotina que verifica, uma única vez, se o valor do painel corresponde ao valor do objetivo. Retorna uma string com o conteúdo do artefato, caso este tenha sido aberto com sucesso ou imprime uma mensagem de erro e retorna None caso contrário .
+Saída
+A função deve retornar uma string que é o conteúdo do artefato.
+
+
+Observação
+Exemplo de manuseio do objeto painel:
+
+def destravarPainel(painel, origem, objetivo):
+    print(f'Ações restantes: {painel.verificaAcoesRestantes()}')
+    print(f'Painel: {painel.verificaPainel()}')
+    print(f'Ações restantes: {painel.verificaAcoesRestantes()}')
+    painel.incrementarValor()
+    print(f'Ações restantes: {painel.verificaAcoesRestantes()}')
+    print(f'Painel: {painel.verificaPainel()}')
+    retorno = painel.abrirArtefato()
+    if retorno == None:
+        print('Falhou ao abrir o artefato')
+    else:
+        print(f'Artefato aberto com sucesso!')
+
+# BFS onde vértices são a transição de um estado para os outros três possíveis
+# - Exemplo e iniciando em 123 e expandindo para as três possibilidades:
+#             123
+#        /     |     \
+#     124     246     321
+#    / | \   / | \   / | \
+#   .  .  . .  .  . .  .  .
+
+def destravarPainel(painel, inicial, final):
+    fila = []
+    visitados = {}
+
+    # Serão colocadas na fila, 3 informações:
+    # - vértice (num)
+    # - tipo (-, inc, doub ou inv) ("-" representa a posição inicial)
+    # - pai (vértice que deu origem a esse número)
+    fila.append((inicial, '-', -1))
+
+    while fila:
+        num, tipo, pai = fila.pop(0)
+        if num == final:
+            visitados[num] = (tipo, pai)
+            break
+        if num in visitados:
+            continue
+
+        visitados[num] = (tipo, pai)
+
+        if num + 1 < 100000:
+            fila.append((num + 1, 'inc', num))
+        rev = int(str(num)[::-1])
+        if rev < 100000:
+            fila.append((int(str(num)[::-1]), 'inv', num))
+        if 2 * num < 100000:
+            fila.append((num * 2, 'doub', num))
+
+    # Reconstrução da solução do final para o início
+    solucao = []
+    atual = final
+    while visitados[atual][0] != '-':
+        solucao.insert(0, visitados[atual][0])
+        atual = visitados[atual][1]
+
+    for passo in solucao:
+        if passo == 'inc':
+            painel.incrementarValor()
+        elif passo == 'doub':
+            painel.dobrarValor()
+        else:
+            painel.inverterValor()
+
+    return painel.abrirArtefato()
+
+################################
+Açaíduto
+O Mestre Açaizeiro Bórus Djorus é o responsável pelo novo grande empreendimento da sua cidade: um aqueduto para fornecer açaí a quase todas as residências. Como a tubulação é cara, ele pediu sua ajuda para minimizar os custos e garantir a energia da galera! A sua tarefa é descobrir o menor gasto possível com a tubulação para conectar todas as residências ao fornecedor. Cada metro de tubulação custa R$ 3.14.
+
+Entrada
+A primeira linha da entrada indica quantos são as n residências da região (1≤n≤100). As n linhas seguintes representam, cada uma, a informação de um vértice no formato: id,A,d1,v1,d2,v2,⋯,dA,vA, onde id é um inteiro identificando a residência, A é a quantidade de vizinhos de id, e cada vi≠id é um inteiro identificando uma residência vizinha, que está localizada a uma distância de di metros de id.
+
+Saída
+Apresente o valor total da tubulação necessária para ligar todas as residências.
+
+Observações
+Cada usuário da rede é representado por um id único, todo grafo é não direcionado, conexo e sem laços. No primeiro exemplo, todos os vértices estão ligados entre si, e a tubulação mínima necessária tem 13 metros (R$ 40.82) ligando as residências na seguinte sequência: (3,1) e (1,2). No segundo exemplo, a tubulação mínima necessária tem 190 metros (R$ 596.60) ligando as residências na seguinte sequência: (3,1),(1,5),(5,4),(4,2) e (2,6).
+
+vertices, arestas = [], []
+for _ in range(int(input())):
+    v, A, *vizinhos = input().split()
+    vertices.append(int(v))
+    for i in range(0, len(vizinhos), 2):
+        arestas.append((int(vizinhos[i]), vertices[-1], int(vizinhos[i + 1])))
+
+total = 0
+arestas.sort(reverse=True)
+agm = {v: set() for v in vertices}
+while arestas:  # Kruskal
+    t, o, d = arestas.pop()
+    if d not in agm[o]:
+        agm[o].add(d)
+        agm[d].add(o)
+        agm[o] |= agm[d]
+        agm[d] |= agm[o]
+        for v in agm[o]:
+            agm[v] |= agm[o]
+
+        total += t
+
+print(f'R$ {total * 3.14:.2f}')
